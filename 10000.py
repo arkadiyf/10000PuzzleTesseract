@@ -87,7 +87,7 @@ def my_index(word):
         return first_jumps + my_index(word[1:])
 
 def index(word):
-    return my_index(word) + 1
+    return my_index(word)+1
 
 def find_func(func_name):
     if func_name=="elements":
@@ -103,7 +103,7 @@ def find_func(func_name):
     if func_name=="midpoint":
         return midpoint
     if func_name=="index":
-        return lambda x:my_index(x)+1
+        return index
     return lambda x:""
     
 
@@ -174,15 +174,12 @@ def solve():
         output.write("%04d: " % i + ",".join(possible_answers) + "\n")
 
     output.close()
-'''
-examples = open("examples.txt")
-for line in examples.readlines():
-    info = parse_line(line)
-    if len(info)>2 and str(find_func(info[0])(info[1])) != info[2]:
-        print(info, find_func(info[0])(info[1]))
+def test_examples():
+    examples = open("examples.txt")
+    for line in examples.readlines():
+        info = parse_line(line)
+        if len(info)>2 and str(find_func(info[0])(info[1])) != info[2]:
+            print(info, find_func(info[0])(info[1]))
+    examples.close()
 
-
-
-examples.close()
-'''
 solve()
