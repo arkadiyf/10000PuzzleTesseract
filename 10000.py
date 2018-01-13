@@ -109,6 +109,8 @@ def find_func(func_name):
 
 def read_all_words():
     words = open("words.txt")
+    words_out = open("words_out.txt", "w")
+    words_out.write("word,elements,scrabble,units,typewriter,news,midpoint,index\n")
     funcs = {elements:{}, scrabble:{}, units:{}, typewriter:{}, news:{}, midpoint:{}, index:{}}
     i = 0
     for word in words.readlines():
@@ -116,11 +118,13 @@ def read_all_words():
         if i % 2500 == 0:
             print(i)
         i += 1
+        words_out.write(word)
         for func in funcs:
             val = str(func(word))
             if val not in funcs[func]:
                 funcs[func][val] = set()
             funcs[func][val].add(word)
+        words_out.write("\n")
     words.close()
     return funcs
 
