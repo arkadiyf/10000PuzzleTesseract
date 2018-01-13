@@ -110,8 +110,11 @@ def find_func(func_name):
 def read_all_words():
     words = open("words.txt")
     words_out = open("words_out.txt", "w")
-    words_out.write("word,elements,scrabble,units,typewriter,news,midpoint,index\n")
-    funcs = {elements:{}, scrabble:{}, units:{}, typewriter:{}, news:{}, midpoint:{}, index:{}}
+    words_out.write("word")
+    funcs = {"elements":{}, "scrabble":{}, "units":{}, "typewriter":{}, "news":{}, "midpoint":{}, "index":{}}
+    for h in funcs:
+        words_out.write(",%s" % h)
+    words_out.write("\n")
     i = 0
     for word in words.readlines():
         word = word.strip()
@@ -119,11 +122,13 @@ def read_all_words():
             print(i)
         i += 1
         words_out.write(word)
-        for func in funcs:
+        for h in funcs:
+            func = find_func(h)
             val = str(func(word))
-            if val not in funcs[func]:
-                funcs[func][val] = set()
-            funcs[func][val].add(word)
+            words_out.write(",%s" % val)
+            if val not in funcs[h]:
+                funcs[h][val] = set()
+            funcs[h][val].add(word)
         words_out.write("\n")
     words.close()
     return funcs
@@ -156,7 +161,7 @@ def solve():
             val = info[2]
             lookup = None
             try:
-                lookup = funcs[func][val]
+                lookup = funcs[info[0]][val]
             except KeyError:
                 lookup = set()
             if possible_answers == None:
